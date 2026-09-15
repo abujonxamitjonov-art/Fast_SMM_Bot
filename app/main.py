@@ -76,10 +76,8 @@ async def set_commands():
 async def lifespan(app: FastAPI):
     global maintenance_task
 
-    # Database
     await init_db()
 
-    # Catalog
     await seed_catalog()
 
     try:
@@ -87,10 +85,8 @@ async def lifespan(app: FastAPI):
     except Exception:
         pass
 
-    # Telegram commands
     await set_commands()
 
-    # Webhook
     external = os.getenv("RENDER_EXTERNAL_URL", "").rstrip("/")
 
     if external:
@@ -102,14 +98,12 @@ async def lifespan(app: FastAPI):
             allowed_updates=dp.resolve_used_update_types(),
         )
 
-    # Background tasks
     maintenance_task = asyncio.create_task(
         maintenance_loop(bot)
     )
 
     yield
 
-    # Shutdown
     if maintenance_task:
         maintenance_task.cancel()
 
@@ -166,16 +160,13 @@ async def webhook(request: Request):
     )
 
 
-# Render Web Service uchun serverni ishga tushirish
 if __name__ == "__main__":
     import uvicorn
 
-    port = int(
-        os.getenv("PORT", "10000")
-    )
+    port = int(os.getenv("PORT", "10000"))
 
     uvicorn.run(
-        "app.main:app",
+        app,
         host="0.0.0.0",
         port=port,
     )
