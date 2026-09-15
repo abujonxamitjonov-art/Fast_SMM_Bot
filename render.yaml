@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: fast-smm-bot
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.main
+    healthCheckPath: /health
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_IDS
+        value: "8735103455"
+      - key: PREMIUM_ADMIN_USERNAME
+        value: "Xamidov_xalal"
+      - key: LOCKSMM_API_URL
+        value: https://locksmm.com/api/v2
+      - key: LOCKSMM_API_KEY
+        sync: false
+      - key: LOCKSMM_NUMBER_API_URL
+        value: https://locksmm.uz
+      - key: HUMO_CARD
+        sync: false
+      - key: VISA_CARD
+        sync: false
+      - key: MASTERCARD_CARD
+        sync: false
+      - key: CARD_OWNER
+        value: "Xamitjonov Abdulxamid"
+      - key: PROOF_CHANNEL_ID
+        value: "@FastSmm_buyurtmalar"
+      - key: WEBHOOK_SECRET
+        sync: false
